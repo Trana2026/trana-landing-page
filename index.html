@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>트라나 — 신원 인증과 전자계약으로 예방하는 중고거래 사기</title>
+  <meta name="description" content="송금 전 본인 인증으로 거래 상대방의 실체를 확인하고, 전자계약서로 거래 조건을 법적 증거로 남깁니다. 지금 사전 신청하면 계약서 100건 무료." />
+
+  <meta property="og:title" content="트라나 — 중고거래 사기, 거래 전에 막으세요" />
+  <meta property="og:description" content="사전 신청만으로 계약서 100건(50만 원 상당) 무료. 신청은 1분이면 끝나요." />
+  <meta property="og:type" content="website" />
+
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    :root {
+      --color-bg-primary: #18191A;
+      --color-bg-secondary: #1F2021;
+      --color-bg-tertiary: #272829;
+      --color-text-primary: #F6F8F9;
+      --color-text-secondary: #B5B7B6;
+      --color-text-tertiary: #8A8D8B;
+      --color-text-brand: #40C572;
+      --color-text-danger: #EF4444;
+      --color-brand: #40C572;
+      --maxw: 420px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--color-bg-secondary);
+      color: var(--color-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    section { padding: 44px 0; }
+    .eyebrow {
+      color: var(--color-text-tertiary);
+      font-size: 14px; font-weight: 500;
+      text-align: center; margin-bottom: 12px;
+    }
+    h2 {
+      font-size: 28px; font-weight: 700; line-height: 1.2;
+      text-align: center; margin-bottom: 12px;
+    }
+    .brand { color: var(--color-text-brand); }
+    .danger { color: var(--color-text-danger); }
+    .lead {
+      color: var(--color-text-secondary);
+      font-size: 14px; font-weight: 500;
+      text-align: center;
+    }
+    .tertiary { color: var(--color-text-tertiary); }
+    .primary-text { color: var(--color-text-primary); }
+
+    /* ===== Hero ===== */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 84px 0 52px;
+      text-align: center;
+    }
+    .hero::before, .hero::after {
+      content: '';
+      position: absolute;
+      width: 380px; height: 380px;
+      border-radius: 9999px;
+      filter: blur(100px);
+      z-index: 0;
+    }
+    .hero::before { background: #3AFF90; opacity: .22; left: -180px; top: 200px; }
+    .hero::after  { background: var(--color-brand); opacity: .18; right: -120px; top: 0; }
+    .hero .wrap { z-index: 1; }
+    .hero .logo {
+      display: block;
+      width: 30px; height: 30px; margin: 0 auto 28px;
+    }
+    h1 { font-size: 28px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; }
+    .hero p.sub { color: var(--color-text-tertiary); font-size: 14px; font-weight: 500; }
+    .hero-illu {
+      display: block;
+      /* .wrap의 좌우 20px 패딩을 상쇄해 화면 끝까지 꽉 차게(full-bleed) */
+      width: calc(100% + 40px);
+      margin: 8px -20px 0;
+      /* 일러스트 상·하단의 글로우를 #1F2021 배경에 자연스럽게 연결 */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 64px, #000 calc(100% - 24px), transparent 100%);
+              mask-image: linear-gradient(to bottom, transparent 0, #000 64px, #000 calc(100% - 24px), transparent 100%);
+    }
+
+    .cta-card {
+      margin-top: 36px;
+      background: var(--color-bg-tertiary);
+      border-radius: 30px;
+      padding: 14px 16px 16px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .cta-card .free { color: var(--color-text-brand); font-size: 14px; font-weight: 500; }
+    .btn-primary {
+      width: 100%; border: none; cursor: pointer;
+      background: var(--color-brand);
+      color: var(--color-text-primary);
+      font-family: inherit; font-size: 16px; font-weight: 600;
+      padding: 15px; border-radius: 14px;
+      box-shadow: 0 6px 16px rgba(64,197,114,.28);
+      transition: transform .08s ease, filter .15s ease;
+    }
+    .btn-primary:hover { filter: brightness(1.05); }
+    .btn-primary:active { transform: scale(.98); }
+    .btn-primary:disabled { opacity: .6; cursor: default; }
+
+    .stat-num {
+      color: var(--color-text-danger);
+      font-size: 40px; font-weight: 700;
+      text-align: center; margin: 12px 0;
+    }
+
+    .bars {
+      display: flex; justify-content: center;
+      align-items: flex-end; gap: 22px;
+      margin-top: 32px;
+    }
+    .bar-col { width: 58px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .bar-col .val { font-size: 12px; font-weight: 500; color: var(--color-text-tertiary); }
+    .bar-col .val.peak { color: var(--color-text-danger); font-weight: 700; }
+    .bar {
+      width: 58px;
+      border-radius: 14px 14px 0 0;
+      background: linear-gradient(180deg, #2C2D2E 60%, rgba(31,32,33,0) 100%);
+    }
+    .bar.peak { background: linear-gradient(180deg, #EF4444 60%, rgba(239,68,68,0) 100%); }
+    .bar-col .yr { font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); }
+
+    .quote {
+      background: var(--color-bg-primary);
+      border-radius: 20px; padding: 12px;
+      margin-bottom: 12px;
+    }
+    .quote .tag {
+      display: inline-block;
+      background: var(--color-bg-secondary);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 12px; font-weight: 500;
+      color: var(--color-text-secondary);
+      margin-bottom: 6px;
+    }
+    .quote .body {
+      padding: 4px 6px;
+      font-size: 14px; font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .feature-card {
+      background: var(--color-bg-primary);
+      border-radius: 20px; padding: 8px;
+      margin-bottom: 20px;
+    }
+    .feature-card .thumb {
+      display: block; width: 100%;
+      aspect-ratio: 319 / 240;
+      border-radius: 16px; object-fit: cover;
+    }
+    .feature-card .txt { padding: 12px; }
+    .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { color: var(--color-text-tertiary); font-size: 14px; font-weight: 500; }
+
+    .mini {
+      background: var(--color-bg-primary);
+      border-radius: 20px;
+      padding: 8px;
+      margin-bottom: 20px;
+      display: flex; gap: 8px; align-items: stretch;
+    }
+    .mini .icon {
+      flex: none;
+      width: 120px; height: 120px;
+      border-radius: 16px; object-fit: cover; display: block;
+    }
+    .mini .txt { padding: 12px 12px 12px 4px; align-self: center; }
+    .mini h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+    .mini p { font-size: 14px; font-weight: 500; }
+
+    .vote-q {
+      display: flex; gap: 8px; align-items: flex-start;
+      margin-bottom: 44px;
+    }
+    .vote-q .q {
+      flex: none;
+      width: 28px; height: 28px;
+      background: var(--color-bg-primary);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700;
+      color: var(--color-text-secondary);
+    }
+    .vote-q p { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+    .vote-row { display: flex; align-items: center; margin-bottom: 20px; }
+    .vote-row .name { width: 116px; flex: none; font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); }
+    .vote-row .meter { flex: none; height: 58px; border-radius: 16px; }
+    .vote-row .pct { margin-left: 12px; font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); }
+    .vote-row.top .pct { color: var(--color-text-brand); }
+
+    .step {
+      background: var(--color-bg-primary);
+      border-radius: 20px; padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex; gap: 16px; align-items: center;
+    }
+    .step .n {
+      flex: none; width: 32px; height: 32px;
+      background: var(--color-brand);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 600;
+    }
+    .step h3 { font-size: 16px; font-weight: 600; }
+    .step p { color: var(--color-text-tertiary); font-size: 14px; font-weight: 500; }
+
+    .letter {
+      background: var(--color-bg-tertiary);
+      border-radius: 20px;
+      padding: 20px;
+      font-size: 14px; font-weight: 500;
+      line-height: 1.65;
+      color: var(--color-text-primary);
+      text-align: center;
+    }
+    .letter p { margin-bottom: 16px; }
+    .letter p:last-child { margin-bottom: 0; }
+    .story-thumb {
+      background: var(--color-bg-primary);
+      border-radius: 20px; padding: 8px; margin-bottom: 20px;
+    }
+    .story-thumb .inner {
+      display: block; width: 100%;
+      aspect-ratio: 319 / 270;
+      border-radius: 16px; object-fit: cover;
+    }
+
+    .partner {
+      background: var(--color-bg-primary);
+      border-radius: 20px; padding: 8px;
+      margin-bottom: 20px;
+      display: flex; gap: 8px; align-items: stretch;
+    }
+    .partner .icon {
+      flex: none; width: 120px; height: 120px;
+      border-radius: 16px; object-fit: cover; display: block;
+    }
+    .partner .txt { align-self: center; padding-left: 4px; }
+    .partner h3 { font-size: 16px; font-weight: 600; line-height: 1.3; }
+
+    .timeline { position: relative; }
+    /* 마커들을 잇는 세로 연결선 (figma: #00C950 12%, 2px) */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 9px; top: 24px; bottom: 40px;
+      width: 2px;
+      background: rgba(0, 201, 80, .12);
+      z-index: 0;
+    }
+    .tl-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 12px 0;
+      position: relative; z-index: 1;
+    }
+    .tl-item .marker {
+      flex: none; width: 20px; height: 20px; margin-top: 2px;
+      background: var(--color-brand);
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px;
+      position: relative; z-index: 1;
+    }
+    .tl-item .txt h3 { font-size: 16px; font-weight: 600; }
+    .tl-item .txt p { font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); }
+    .tl-highlight {
+      flex: 1;
+      background: rgba(0,201,80,.12);
+      border: 1px solid var(--color-brand);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .tl-highlight .badge {
+      display: inline-block;
+      background: var(--color-brand);
+      border-radius: 10px;
+      padding: 4px 8px;
+      font-size: 12px; color: #fff;
+      margin-bottom: 8px;
+    }
+    .tl-highlight h3 { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
+    .tl-highlight p { font-size: 14px; font-weight: 500; color: var(--color-text-tertiary); }
+
+    .final { text-align: center; }
+    .final h2 { margin-bottom: 8px; }
+
+    .sticky-bar {
+      position: fixed; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(31,32,33,0), var(--color-bg-secondary) 40%);
+      padding: 16px 0 calc(16px + env(safe-area-inset-bottom));
+      z-index: 40;
+    }
+    /* 본문(.wrap)과 좌우 끝을 정확히 맞추기 위해 동일한 max-width + 20px 패딩 사용 */
+    .sticky-bar .inner { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.6);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: flex-end; justify-content: center;
+      z-index: 100;
+    }
+    .overlay.open { display: flex; }
+    .modal {
+      width: 100%; max-width: var(--maxw);
+      background: var(--color-bg-secondary);
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+      animation: slideUp .25s ease;
+    }
+    @media (min-width: 480px) {
+      .overlay { align-items: center; }
+      .modal { border-radius: 24px; margin: 0 16px; }
+    }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal h2 { text-align: left; font-size: 22px; margin-bottom: 6px; }
+    .modal .desc { color: var(--color-text-tertiary); font-size: 14px; margin-bottom: 20px; }
+
+    .field { margin-bottom: 14px; }
+    .field label { display: block; font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 6px; }
+    .field input {
+      width: 100%;
+      background: var(--color-bg-tertiary);
+      border: 1px solid transparent; border-radius: 12px;
+      padding: 14px; color: var(--color-text-primary);
+      font-family: inherit; font-size: 15px;
+      transition: border-color .15s ease;
+    }
+    .field input::placeholder { color: var(--color-text-tertiary); }
+    .field input:focus { outline: none; border-color: var(--color-brand); }
+
+    .consent { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 16px; cursor: pointer; user-select: none; }
+    .consent input { display: none; }
+    .consent .box {
+      flex: none; width: 20px; height: 20px; margin-top: 1px;
+      border: 1.5px solid var(--color-text-tertiary); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .consent .box::after { content: '✓'; font-size: 13px; color: #fff; opacity: 0; transition: opacity .15s ease; }
+    .consent input:checked + .box { background: var(--color-brand); border-color: var(--color-brand); }
+    .consent input:checked + .box::after { opacity: 1; }
+    .consent .label { font-size: 13px; line-height: 1.5; color: var(--color-text-secondary); }
+    .consent .label a { color: var(--color-text-brand); text-decoration: underline; }
+    .consent .label .req { color: var(--color-text-brand); }
+
+    .modal-actions { display: flex; gap: 10px; margin-top: 8px; }
+    .btn-ghost {
+      flex: none; background: var(--color-bg-tertiary);
+      color: var(--color-text-secondary);
+      border: none; cursor: pointer;
+      font-family: inherit; font-size: 15px; font-weight: 500;
+      padding: 15px 20px; border-radius: 14px;
+    }
+    .modal-actions .btn-primary { flex: 1; }
+    .form-msg { font-size: 13px; margin-top: 12px; text-align: center; min-height: 18px; }
+    .form-msg.error { color: var(--color-text-danger); }
+    .form-msg.success { color: var(--color-text-brand); }
+
+    .success-view { text-align: center; padding: 8px 0 4px; display: none; }
+    .success-view.show { display: block; }
+    .success-view .check {
+      width: 56px; height: 56px; margin: 0 auto 16px;
+      background: var(--color-brand); border-radius: 9999px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; color: #fff;
+    }
+    .success-view h2 { text-align: center; }
+    .form-view.hide { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <div class="wrap">
+      <img class="logo" src="assets/logo.webp" alt="트라나 로고" width="30" height="30" />
+      <h1>신원 인증과 전자계약으로<br/>예방하는 중고거래 사기</h1>
+      <p class="sub">
+        트라나는 송금 전,<br/>
+        본인 인증으로 거래 상대방의 실체를 확인하고<br/>
+        전자계약서로 거래 조건을 법적 증거로 남깁니다.
+      </p>
+      <img class="hero-illu" src="assets/hero-illustration.webp" alt="" aria-hidden="true" />
+      <div class="cta-card">
+        <span class="free">지금 사전 신청하면 계약서 100건 무료</span>
+        <button class="btn-primary" data-open-form>사전 신청하러가기</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== 누적 피해액 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">누적 피해액</p>
+        <div class="stat-num">1조 7,000억 원</div>
+        <p class="lead">
+          <span class="tertiary">5년간 사기피해는 꾸준히 늘어</span><br/>
+          <span class="primary-text">2025년 한 해에만, 8,000억 원을 넘어섰습니다.</span><br/>
+          <span class="tertiary">그럼에도</span> <span class="primary-text">예방 수단은 5년 전과 똑같아,</span><br/>
+          <span class="primary-text">안전결제와 사기 계좌조회로 한정되어 있다는 사실</span><span class="tertiary">,</span><br/>
+          <span class="tertiary">알고 계셨나요?</span>
+        </p>
+
+        <div class="bars">
+          <div class="bar-col">
+            <span class="val">2,573억</span>
+            <div class="bar" style="height:120px"></div>
+            <span class="yr">21년</span>
+          </div>
+          <div class="bar-col">
+            <span class="val">2,504억</span>
+            <div class="bar" style="height:120px"></div>
+            <span class="yr">22-23년</span>
+          </div>
+          <div class="bar-col">
+            <span class="val">3,340억</span>
+            <div class="bar" style="height:134px"></div>
+            <span class="yr">24년</span>
+          </div>
+          <div class="bar-col">
+            <span class="val peak">8,740억</span>
+            <div class="bar peak" style="height:220px"></div>
+            <span class="yr">25년</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 여러분의 이야기는 아닌가요 ===== -->
+    <section>
+      <div class="wrap">
+        <h2>혹시,<br/>여러분의 이야기는 아닌가요?</h2>
+        <div style="margin-top:28px">
+          <div class="quote">
+            <span class="tag">사기 피해자 A씨</span>
+            <p class="body">플랫폼은 대처가 없고 경찰 수사는 너무 느려요.<br/>증거 모으는 것도 번거로운데, 신고하려면 상대 정보를<br/>알아야 한다는 게 너무 어이없네요</p>
+          </div>
+          <div class="quote">
+            <span class="tag">100만원 이상의 고가 거래자</span>
+            <p class="body">안전결제가 너무 비싸요..상품 금액이 100만원이 넘어가면<br/>수수료가 최소 10만원 이상이여서 부담스럽네요</p>
+          </div>
+          <div class="quote">
+            <span class="tag">OO마켓 직거래 이용자</span>
+            <p class="body">직거래는 약속 잡아 놓고 당일에 취소하는게 너무 많아요..<br/>이런 일이 한두번도 아니고 노쇼 때문에 너무 화나네요</p>
+          </div>
+          <div class="quote">
+            <span class="tag">중고거래 분쟁 경험자</span>
+            <p class="body">판매자가 고지한 것보다 하자가 많아 연락드렸는데,<br/>사기꾼으로 모는데다 택배사 문제라고 하네요 어떡하죠..?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 해결책 3가지 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">해결 방법</p>
+        <h2>중고거래 사기피해,<br/><span class="brand">트라나가 해결하겠습니다!</span></h2>
+        <p class="lead" style="margin-bottom:28px">트라나는 세 가지를 확실히 합니다.</p>
+
+        <div class="feature-card">
+          <img class="thumb" src="assets/feature-identity.webp" alt="신원 인증 화면" loading="lazy" />
+          <div class="txt">
+            <h3>신원 인증</h3>
+            <p>상대방이 실제로 존재하는 사람인지<br/>휴대폰 본인 확인을 통해 확인해요</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <img class="thumb" src="assets/feature-contract.webp" alt="전자계약서 화면" loading="lazy" />
+          <div class="txt">
+            <h3>전자계약으로 법적 증거화</h3>
+            <p>물품 상태와 거래 조건 등을 <span class="primary-text">전자계약서</span>에<br/>담아서 법적 증거화시켜요</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <img class="thumb" src="assets/feature-evidence.webp" alt="증거 패키지 화면" loading="lazy" />
+          <div class="txt">
+            <h3>피해 발생 시 증거 제공</h3>
+            <p>피해 발생 시 법적 대응 및 신고 시<br/>증거로 활용 가능한 패키지를 제공해요</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 신원 인증 상세 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">신원 인증</p>
+        <h2>신원인증으로<br/>대포폰, 대포통장, 3자 사기<br/><span class="brand">사전 차단</span></h2>
+        <p class="lead" style="margin-bottom:28px">트라나는 휴대폰 본인인증(PASS)을 통과해야만<br/>계약을 생성할 수 있습니다.</p>
+
+        <div class="mini">
+          <img class="icon" src="assets/detail-identity-1.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>본인 명의로만<br/>인증 가능</h3>
+            <p><span class="tertiary">본인 명의 휴대폰 인증을 통한</span><br/><span class="primary-text">익명·가명 거래 차단</span></p>
+          </div>
+        </div>
+        <div class="mini">
+          <img class="icon" src="assets/detail-identity-2.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>제 3자의 개입을<br/>미연에 방지</h3>
+            <p><span class="tertiary">양측 실명 확인을 통한</span><br/><span class="primary-text">제3자 끼어들기 방지</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 전자 계약 상세 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">전자 계약</p>
+        <h2>구두약속이 아닌,<br/><span class="brand">법적 효력이 있는 계약</span>으로<br/>거래 안전 확보</h2>
+        <p class="lead" style="margin-bottom:28px">'하자 없다'는 말은 분쟁에서 힘이 없습니다.<br/>트라나는 물품 상태·책임 범위를 계약서에 담아 전자서명해,<br/>법적 효력 있는 근거를 남깁니다.</p>
+
+        <div class="mini">
+          <img class="icon" src="assets/detail-contract-1.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>구두약속이 아닌<br/>계약으로 증명</h3>
+            <p><span class="tertiary">법적 효력 있는 계약을 통한</span><br/><span class="primary-text">객관적 근거 확보</span></p>
+          </div>
+        </div>
+        <div class="mini">
+          <img class="icon" src="assets/detail-contract-2.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>물품 상태와 책임을<br/>계약서에 명시</h3>
+            <p><span class="tertiary">상태·하자·책임 명시를 통한</span><br/><span class="primary-text">분쟁 시 책임 명확화</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 증거 패키지 상세 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">증거 패키지</p>
+        <h2>흩어진 증거를 모을 필요 없이,<br/><span class="brand">경찰서 제출용</span>으로 한 번에</h2>
+        <p class="lead" style="margin-bottom:28px">사고가 나면 증거를 직접 모아야 합니다.<br/>트라나는 인증·계약·거래 기록을 자동으로 묶어,<br/>고소·소송에 바로 쓸 수 있는 형태로 제공합니다.</p>
+
+        <div class="mini">
+          <img class="icon" src="assets/detail-evidence-1.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>흩어진 거래 자료들을<br/>자동으로 수집</h3>
+            <p><span class="tertiary">인증·계약·거래 기록을 통한,</span><br/><span class="primary-text">증거 확보 간소화</span></p>
+          </div>
+        </div>
+        <div class="mini">
+          <img class="icon" src="assets/detail-evidence-2.webp" alt="" aria-hidden="true" loading="lazy" />
+          <div class="txt">
+            <h3>피해 후 신고·고소에<br/>증거로 활용</h3>
+            <p><span class="tertiary">정리된 기록 제공을 통한</span><br/><span class="primary-text">즉시 신고 가능</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 사용자 투표 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">사용자 투표</p>
+        <h2>10명 중 <span class="brand" style="font-size:40px">9명</span>이<br/>'계약을 쓰겠다'고 답했어요</h2>
+        <p class="lead" style="margin-bottom:28px">분쟁은 늘 '말로만 한 약속'에서 시작되니까요.<br/>트라나는 거래 조건을 법적 효력이 있는 계약으로 남깁니다.</p>
+
+        <div class="vote-q">
+          <span class="q">Q</span>
+          <p>'물건 하자 시 환불 조건'과 '노쇼 방지'를 계약으로<br/>명확히 확정할 수 있다면, 사용할 의향이 있나요?</p>
+        </div>
+
+        <div class="vote-row top">
+          <span class="name">예 (적극 사용)</span>
+          <div class="meter" style="width:178px; background:linear-gradient(90deg, rgba(64,197,114,0), #40C572)"></div>
+          <span class="pct">80%</span>
+        </div>
+        <div class="vote-row">
+          <span class="name">상대가 먼저 제안 시</span>
+          <div class="meter" style="width:60px; background:linear-gradient(90deg, rgba(44,45,46,0), #2C2D2E)"></div>
+          <span class="pct">25%</span>
+        </div>
+        <div class="vote-row">
+          <span class="name">아니요 (번거로움)</span>
+          <div class="meter" style="width:16px; background:linear-gradient(90deg, rgba(44,45,46,0), #2C2D2E)"></div>
+          <span class="pct">5%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 진행 플로우 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">진행 플로우</p>
+        <h2>어렵지 않아요.<br/><span class="brand">4단계</span>면 사기 예방이 가능해요</h2>
+        <div style="margin-top:28px">
+          <div class="step"><span class="n">1</span><div><h3>신원 인증</h3><p>PASS 본인 인증으로 거래 상대방의 실체를 확인합니다.</p></div></div>
+          <div class="step"><span class="n">2</span><div><h3>계약서 작성</h3><p>물품 상태·금액·책임 범위를 담아요. AI가 항목을 자동으로 채워 줍니다.</p></div></div>
+          <div class="step"><span class="n">3</span><div><h3>전자서명</h3><p>합의한 내용에 전자서명해 법적 효력을 부여합니다.</p></div></div>
+          <div class="step"><span class="n">4</span><div><h3>거래 완료</h3><p>모든 과정이 증거로 기록되어 분쟁이 생겨도 안전합니다.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 브랜드 스토리 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">브랜드 스토리</p>
+        <h2><span class="brand">140만 원 맥북 사기</span>가,<br/>트라나의 시작이었습니다</h2>
+
+        <div class="story-thumb" style="margin-top:28px">
+          <img class="inner" src="assets/brand-story.webp" alt="140만 원 맥북 중고거래 사기 피해 화면" loading="lazy" />
+        </div>
+
+        <div class="letter">
+          <p>안녕하세요, Trana 대표 권태윤입니다.</p>
+          <p>저는 140만 원 상당의 피해를 입은 중고거래 사기 피해자입니다. 단순히 수익을 바라고 이 앱을 만든 것이 아니라, 피해자들이 어느 지점에서 막막해지고 어느 지점에서 지쳐 포기하게 되는지를 제가 직접 겪어 알기에 조금이나마 도움이 되고 싶어 Trana를 만들게 되었습니다.</p>
+          <p>사기를 당하던 그때만 해도 상대방의 더치트는 깨끗했고 대화도 친절해서 의심할 이유가 전혀 없었지만, 결국 그 사람은 사기꾼이었고 막상 신고를 하러 가서는 제가 할 수 있는 일이 아무것도 없었습니다. 카톡 대화와 입금 내역을 일일이 캡처하고 정리해 증거랍시고 모으는 일부터가 막막하고 번거로웠는데, 그렇게 어렵게 모은 증거조차 상대의 얼굴도 이름도 모르는데다 계좌마저 대포통장이다 보니 수사는 흐지부지 진행되었고, 결국 돈도 진범도 돌아오지 않았습니다.</p>
+          <p>그러면서 한 가지가 분명해졌습니다. 사기를 당한 뒤에 증거를 모으고 상대를 쫓는 건 이미 늦었다는 것, 그리고 정작 송금하기 전에는 상대가 누구인지조차 확인할 방법이 없다는 것. 거래가 끝난 뒤가 아니라 시작되기 전에 막아야 한다는 이 단순한 사실에서 Trana가 시작되었습니다.</p>
+          <p>제가 겪은 막막함을 다른 누군가는 겪지 않았으면 합니다. 앞으로도 Trana는 더 많은 분들이 안심하고 거래할 수 있도록, 사기 피해를 막는 일에 끝까지 힘쓰겠습니다.<br/>감사합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 추진 이력 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">지금까지 추진 이력</p>
+        <h2>검증부터 정식 출시까지,<br/>트라나가 <span class="brand">걸어온 길</span></h2>
+        <div class="timeline" style="margin-top:28px">
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>수요조사 진행</h3><p>48명 대상 설문으로 시장 수요 검증</p></div>
+          </div>
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>고객 인터뷰 진행</h3><p>26명 심층 인터뷰로 핵심 문제 구체화</p></div>
+          </div>
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>프로토타입 운영 진행</h3><p>IT 기기 거래자 12명 대상 실사용 테스트</p></div>
+          </div>
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>팀 빌딩 &amp; 개발 착수</h3><p>개발·디자인 핵심 멤버 합류, 제품 개발 시작</p></div>
+          </div>
+          <div class="tl-item">
+            <span class="marker">✓</span>
+            <div class="tl-highlight">
+              <span class="badge">선정</span>
+              <h3>창업중심대학 선정<br/>예비창업패키지 선정</h3>
+              <p>정부 주관 창업 지원 프로그램 선정</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>사전 신청자 모집</h3><p>정식 출시 전 사전 신청자 모집</p></div>
+          </div>
+          <div class="tl-item">
+            <span class="marker"></span>
+            <div class="txt"><h3>MVP 정식 출시</h3><p>중고거래 사기 예방 서비스 정식 런칭</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 함께하는 분들 ===== -->
+    <section>
+      <div class="wrap">
+        <p class="eyebrow">함께 하는 분들</p>
+        <h2><span class="brand">중고거래 전문가들과 </span>함께<br/>더 안전한 거래를 설계합니다</h2>
+        <div style="margin-top:28px">
+          <div class="partner">
+            <img class="icon" src="assets/partner-1.webp" alt="" aria-hidden="true" loading="lazy" />
+            <div class="txt"><h3>사기피해<br/>오픈채팅방 방장</h3></div>
+          </div>
+          <div class="partner">
+            <img class="icon" src="assets/partner-2.webp" alt="" aria-hidden="true" loading="lazy" />
+            <div class="txt"><h3>네이버 중고거래<br/>카페 운영자</h3></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 최종 CTA ===== -->
+    <section class="final">
+      <div class="wrap">
+        <h2>지금 사전 신청하면<br/><span class="brand">계약서 100건 무료</span></h2>
+        <p class="lead">사전 신청만으로 100건(50만 원 상당)을 무료로 드립니다.<br/>신청은 1분이면 끝나요!</p>
+      </div>
+    </section>
+
+    <div style="height:96px"></div>
+  </main>
+
+  <!-- ===== Sticky bottom CTA ===== -->
+  <div class="sticky-bar">
+    <div class="inner">
+      <button class="btn-primary" data-open-form>사전 신청하러가기</button>
+    </div>
+  </div>
+
+  <!-- ===== Modal ===== -->
+  <div class="overlay" id="overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="form-view" id="formView">
+        <h2 id="modalTitle">사전 신청</h2>
+        <p class="desc">아래 정보를 남겨주시면 출시 소식과 무료 혜택을 안내드려요.</p>
+
+        <div class="field">
+          <label for="name">이름</label>
+          <input id="name" type="text" placeholder="홍길동" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="phone">휴대폰 번호</label>
+          <input id="phone" type="tel" placeholder="010-1234-5678" autocomplete="tel" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label for="email">이메일</label>
+          <input id="email" type="email" placeholder="trana@example.com" autocomplete="email" inputmode="email" />
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="consent" />
+          <span class="box"></span>
+          <span class="label">
+            <span class="req">[필수]</span>
+            개인정보 수집·이용에 동의합니다.
+            <a href="#" id="consentDetail">자세히</a>
+          </span>
+        </label>
+
+        <div id="consentBody" style="display:none; background:var(--color-bg-tertiary); border-radius:12px; padding:14px; margin:0 0 16px; font-size:12px; line-height:1.6; color:var(--color-text-tertiary);">
+          · <b style="color:var(--color-text-secondary)">수집 항목</b> 이름, 휴대폰 번호, 이메일<br/>
+          · <b style="color:var(--color-text-secondary)">수집 목적</b> 사전 신청자 관리 및 출시·혜택 안내<br/>
+          · <b style="color:var(--color-text-secondary)">보유 기간</b> 서비스 출시 후 1년 또는 신청자 요청 시 즉시 파기<br/>
+          · 동의를 거부할 수 있으나, 거부 시 사전 신청이 제한됩니다.
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-ghost" data-close-form>닫기</button>
+          <button class="btn-primary" id="submitBtn">신청 완료하기</button>
+        </div>
+        <p class="form-msg" id="formMsg"></p>
+      </div>
+
+      <div class="success-view" id="successView">
+        <div class="check">✓</div>
+        <h2>신청이 완료됐어요!</h2>
+        <p class="lead" style="margin:8px 0 20px">
+          출시 소식과 계약서 100건 무료 혜택을<br/>가장 먼저 안내드릴게요.
+        </p>
+        <button class="btn-primary" data-close-form>확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Supabase ===== -->
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+    const SUPABASE_URL = 'https://ctdyyimtaqlgnjypocll.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN0ZHl5aW10YXFsZ25qeXBvY2xsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NjQ2NDEsImV4cCI6MjA5ODM0MDY0MX0.9x4x3GQsEu2VOKdwvMSQJXjYs4vDA3UjXfMh2LN5svs';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const overlay     = document.getElementById('overlay');
+    const formView    = document.getElementById('formView');
+    const successView = document.getElementById('successView');
+    const submitBtn   = document.getElementById('submitBtn');
+    const formMsg     = document.getElementById('formMsg');
+    const nameEl  = document.getElementById('name');
+    const phoneEl = document.getElementById('phone');
+    const emailEl = document.getElementById('email');
+    const consentEl = document.getElementById('consent');
+
+    function openForm() {
+      overlay.classList.add('open');
+      formView.classList.remove('hide');
+      successView.classList.remove('show');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => nameEl.focus(), 100);
+    }
+    function closeForm() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      resetForm();
+    }
+    function resetForm() {
+      formMsg.textContent = '';
+      formMsg.className = 'form-msg';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '신청 완료하기';
+      consentEl.checked = false;
+    }
+
+    document.getElementById('consentDetail').addEventListener('click', e => {
+      e.preventDefault();
+      const body = document.getElementById('consentBody');
+      body.style.display = body.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.querySelectorAll('[data-open-form]').forEach(b => b.addEventListener('click', openForm));
+    document.querySelectorAll('[data-close-form]').forEach(b => b.addEventListener('click', closeForm));
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeForm(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlay.classList.contains('open')) closeForm(); });
+
+    phoneEl.addEventListener('input', e => {
+      let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+      if (v.length > 7)      v = v.replace(/(\d{3})(\d{4})(\d{1,4})/, '$1-$2-$3');
+      else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,4})/, '$1-$2');
+      e.target.value = v;
+    });
+
+    function validate(name, phone, email) {
+      if (!name)  return '이름을 입력해 주세요.';
+      if (!/^010-?\d{4}-?\d{4}$/.test(phone)) return '휴대폰 번호를 정확히 입력해 주세요.';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return '이메일 형식이 올바르지 않습니다.';
+      return null;
+    }
+
+    submitBtn.addEventListener('click', async () => {
+      const name  = nameEl.value.trim();
+      const phone = phoneEl.value.trim();
+      const email = emailEl.value.trim();
+
+      const err = validate(name, phone, email);
+      if (err) {
+        formMsg.textContent = err;
+        formMsg.className = 'form-msg error';
+        return;
+      }
+      if (!consentEl.checked) {
+        formMsg.textContent = '개인정보 수집·이용에 동의해 주세요.';
+        formMsg.className = 'form-msg error';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '신청 중...';
+      formMsg.textContent = '';
+      formMsg.className = 'form-msg';
+
+      const { error } = await supabase
+        .from('preregistrations')
+        .insert({ name, phone, email, consent: true });
+
+      if (error) {
+        console.error(error);
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청 완료하기';
+        formMsg.className = 'form-msg error';
+        formMsg.textContent = error.code === '23505'
+          ? '이미 신청하신 이메일이에요.'
+          : '잠시 후 다시 시도해 주세요.';
+        return;
+      }
+
+      formView.classList.add('hide');
+      successView.classList.add('show');
+    });
+  </script>
+</body>
+</html>
